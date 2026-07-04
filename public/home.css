@@ -1,0 +1,31 @@
+body{
+    display: flexbox;
+    flex-wrap: wrap;
+}
+img{
+    object-fit: cover;
+    height: 200px;
+    width: 200px;
+}
+
+.list{
+    width: 400px;
+    border: 2px solid black;
+    display: inline-block;
+    margin: 5px;
+}
+
+form{
+    display: inline;
+}
+
+li{
+    margin: 15px;
+}
+button{
+    border-radius: 7px;
+    margin-left: 5px;
+}
+a{
+    text-decoration: none   ;
+}
