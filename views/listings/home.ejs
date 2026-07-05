@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/home.css">
-</head>
-
+<% layout("/layouts/boilarplate") %>
 <body>
-    <h3>All Listings</h3>
     
     <form method="get" action="http://localhost:8080/listing/new">
         <button type="submit">add new</button>
@@ -21,7 +11,7 @@
         <li><a  href="http://localhost:8080/listing/<%= list._id %>">
             <%= list.title %>
         </a>
-        <form method="get" action="http://localhost:8080/listing/update/<%= list._id %>">
+        <form method="get" action="http://localhost:8080/listing/edit/<%= list._id %>">
             <button>Update</button>
         </form>
         <form method="post" action="http://localhost:8080/<%= list._id %>?_method=Delete">
@@ -30,5 +20,3 @@
     </li>
         <%}%>
 </body>
-
-</html>

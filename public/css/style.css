@@ -1,6 +1,7 @@
 body{
     display: flexbox;
     flex-wrap: wrap;
+    background-color: azure;
 }
 img{
     object-fit: cover;
