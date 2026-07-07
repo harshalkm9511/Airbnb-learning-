@@ -1,32 +1,95 @@
-body{
+body {
     display: flexbox;
     flex-wrap: wrap;
     background-color: azure;
+    
 }
-img{
+
+.card-img-top{
     object-fit: cover;
     height: 200px;
     width: 200px;
+    border-radius: 10px !important;
 }
 
-.list{
+.list {
     width: 400px;
     border: 2px solid black;
     display: inline-block;
     margin: 5px;
 }
 
-form{
-    display: inline;
-}
 
-li{
+li {
     margin: 15px;
 }
-button{
+
+button {
     border-radius: 7px;
     margin-left: 5px;
 }
-a{
-    text-decoration: none   ;
+
+a {
+    text-decoration: none;
+}
+
+.navbar {
+    background-color: rgb(229, 220, 210);
+    height: 5rem;
+}
+
+.airbnbIcon {
+    color: red;
+    font-size: 40px;
+}
+
+.airbnbIcon+.navbar-brand {
+    color: red;
+    font-weight: 500;
+}
+
+.footer {
+    justify-items: center;
+    align-content: center;
+    background-color: rgb(14, 14, 14);
+    color: white;
+    margin-bottom: 0px;
+    height: 300px;
+}
+
+i {
+    display: inline-block;
+    margin: 10px;
+}
+
+.card{
+    margin: 20px 0px 0px 0px;
+    border: none !important;
+}
+.card-title{
+    font-weight: 500;
+}
+
+.homeContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0px;
+}
+
+.formContainer, .editContainer{
+    margin: 37px 0px;
+}
+
+.listing-link{
+    text-decoration: none;
+}
+
+.card-img-overlay{
+    opacity: 0;
+}
+
+.card-img-overlay:hover{
+    opacity: 0.3;
+    background-color: white;
 }

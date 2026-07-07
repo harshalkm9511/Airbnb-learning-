@@ -1,22 +1,22 @@
 <% layout("/layouts/boilarplate") %>
-<body>
-    
-    <form method="get" action="http://localhost:8080/listing/new">
-        <button type="submit">add new</button>
-    </form>
 
-    <hr> 
-    
-    <% for(let list of lists){%>
-        <li><a  href="http://localhost:8080/listing/<%= list._id %>">
-            <%= list.title %>
-        </a>
-        <form method="get" action="http://localhost:8080/listing/edit/<%= list._id %>">
-            <button>Update</button>
-        </form>
-        <form method="post" action="http://localhost:8080/<%= list._id %>?_method=Delete">
-            <button>Delete</button>
-        </form>
-    </li>
-        <%}%>
-</body>
+    <body>
+        <div class="homeContainer">
+            <% for(let list of lists){%>
+                <a href="/listing/<%= list._id %>" class="listing-link">
+                    <div class="card" style="width: 18rem;">
+                        <img src="<%=list.image.url%>" class="card-img-top" alt="Listing_image">
+                        <div class="card-img-overlay">harshal</div>
+                        <div class="card-body">
+
+                            <p class="card-title">
+                                <%= list.title %>
+                            </p>
+                            <p class="card-prise">&#8377;<%= list.price.toLocaleString() %>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                <%}%>
+        </div>
+    </body>

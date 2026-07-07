@@ -30,6 +30,7 @@ main()
 
 app.get("/", async (req, res) => {
     let lists = await Listing.find();
+    
     res.render("./listings/home.ejs", {lists});
 })
 
@@ -52,7 +53,6 @@ app.get("/listing/edit/:id", async(req, res)=>{
 app.patch("/:id", async(req, res)=>{
     let {id} = req.params;
     let listing = req.body.listing;
-    console.log(listing);
     await Listing.updateOne({_id:id}, listing);
     res.redirect("/");
     
@@ -70,9 +70,6 @@ app.get("/listing/:id", async (req, res)=>{
     listing = listing[0];
     res.render("./listings/show.ejs", {listing});
 })
-
-
-
 
 
 app.listen(port, () => {
