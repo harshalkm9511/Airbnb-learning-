@@ -11,7 +11,7 @@ const port = 8080;
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "/public")));
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
@@ -30,47 +30,43 @@ main()
 
 app.get("/", async (req, res) => {
     let lists = await Listing.find();
-    
-    res.render("./listings/home.ejs", {lists});
+    res.render("./listings/home.ejs", { lists });
 })
 
-app.get("/listing/new", (req, res)=>{
+app.get("/listing/new", (req, res) => {
     res.render("./listings/form.ejs");
 })
-app.post("/listing", async (req, res)=>{
-    let listing = req.body.listing;  
-    let ans = await Listing.insertOne(listing);
-    res.redirect("/");  
-    
-})
-
-app.get("/listing/edit/:id", async(req, res)=>{
-    let {id} = req.params;
-    let listing = await Listing.find({_id:id});
-    listing = listing[0];
-    res.render("./listings/update.ejs", {listing});
-})
-app.patch("/:id", async(req, res)=>{
-    let {id} = req.params;
+app.post("/listing", async (req, res) => {
     let listing = req.body.listing;
-    await Listing.updateOne({_id:id}, listing);
-    res.redirect("/");
-    
-})
-
-app.delete("/:id", async (req, res)=>{
-    let {id} = req.params;
-    await Listing.deleteOne({_id:id});
+    await Listing.insertOne(listing);
     res.redirect("/");
 })
 
-app.get("/listing/:id", async (req, res)=>{
-    let {id} = req.params;
-    let listing = await Listing.find({_id:id});
+app.get("/listing/edit/:id", async (req, res) => {
+    let { id } = req.params;
+    let listing = await Listing.find({ _id: id });
     listing = listing[0];
-    res.render("./listings/show.ejs", {listing});
+    res.render("./listings/update.ejs", { listing });
+})
+app.patch("/:id", async (req, res) => {
+    let { id } = req.params;
+    let listing = req.body.listing;
+    await Listing.findOneAndUpdate({_id:id}, listing);
+    res.redirect("/");
 })
 
+app.delete("/:id", async (req, res) => {
+    let { id } = req.params;
+    await Listing.deleteOne({ _id: id });
+    res.redirect("/");
+})
+
+app.get("/listing/:id", async (req, res) => {
+    let { id } = req.params;
+    let listing = await Listing.find({ _id: id });
+    listing = listing[0];
+    res.render("./listings/show.ejs", { listing });
+})
 
 app.listen(port, () => {
     console.log("server is running");
