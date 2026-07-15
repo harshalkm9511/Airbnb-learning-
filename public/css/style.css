@@ -107,3 +107,13 @@ i {
 .show-form{
     display: flex;
 }
+
+.errorContainer{
+    height: 80vh;
+}
+/* .errorContainer .row{
+    margin: 100px auto;
+} */
+/* .alert{
+    height: 200px;
+} */
