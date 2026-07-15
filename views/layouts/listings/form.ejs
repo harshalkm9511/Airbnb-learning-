@@ -1,44 +1,50 @@
 <% layout("layouts/boilarplate") %>
 
     <div class="formContainer">
-        <form method="post" action="http://localhost:8080/listing">
+        <form method="post" action="http://localhost:8080/listing" class="needs-validation" novalidate>
             <div class="row">
                 <div class="col-8 offset-2">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title: </label>
                         <input type="text" name="listing[title]" id="title" class="form-control"
-                            placeholder="enter title">
+                            placeholder="enter title" required>
+                            <div class="invalid-feedback">Enter the title</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="description" class="form-label">Description: </label>
-                        <textarea name="listing[description]" id="description" class="form-control"></textarea>
+                        <textarea name="listing[description]" id="description" class="form-control" required></textarea>
+                        <div class="invalid-feedback">Please fill the description </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="image" class="form-label">Image: </label>
                         <input type="text" class="form-control" name="listing[image]" id="image"
-                            placeholder="enter image URL/Link">
+                            placeholder="enter image URL/Link" required>
+                            <div class="invalid-feedback">Provide a image URL</div>
                     </div>
 
                     <div class="row ">
                         <div class="mb-3 col-md-4 ">
                             <label for="price" class="form-label">Prise: </label>
                             <input type="text" class="form-control" name="listing[price]" id="price"
-                                placeholder="enter prise">
+                                placeholder="enter prise" required>
+                                <div class="invalid-feedback">Enter the prise</div>
                         </div>
 
                         <div class="mb-3 col-md-8">
                             <label for="country" class="form-label">Country: </label>
                             <input type="text" class="form-control" name="listing[country]" id="country"
-                                placeholder="enter country">
+                                placeholder="enter country" required>
+                                <div class="invalid-feedback">Enter the country</div>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="location" class="form-label">Location: </label>
                         <input type="text" class="form-control" name="listing[location]" id="location"
-                            placeholder="enter location">
+                            placeholder="enter location" required>
+                            <div class="invalid-feedback">Enter the location</div>
                     </div>
 
                     <button type="submit" class="btn btn-dark">Create</button>

@@ -30,28 +30,32 @@ main()
 
 app.get("/", async (req, res) => {
     let lists = await Listing.find();
-    res.render("./listings/home.ejs", { lists });
+    res.render("./layouts/listings/home.ejs", { lists });
 })
 
 app.get("/listing/new", (req, res) => {
-    res.render("./listings/form.ejs");
+    res.render("./layouts/listings/form.ejs");
 })
-app.post("/listing", async (req, res) => {
-    let listing = req.body.listing;
-    await Listing.insertOne(listing);
-    res.redirect("/");
+app.post("/listing", async (req, res, next) => {
+    try {
+        let listing = req.body.listing;
+        let ans = await Listing.insertOne(listing);
+        res.redirect("/");
+    } catch (err) {
+        next(err);
+    }
 })
 
 app.get("/listing/edit/:id", async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.find({ _id: id });
     listing = listing[0];
-    res.render("./listings/update.ejs", { listing });
+    res.render("./layouts/listings/update.ejs", { listing });
 })
 app.patch("/:id", async (req, res) => {
     let { id } = req.params;
     let listing = req.body.listing;
-    await Listing.findOneAndUpdate({_id:id}, listing);
+    await Listing.findOneAndUpdate({ _id: id }, listing);
     res.redirect("/");
 })
 
@@ -65,7 +69,12 @@ app.get("/listing/:id", async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.find({ _id: id });
     listing = listing[0];
-    res.render("./listings/show.ejs", { listing });
+    res.render("./layouts/listings/show.ejs", { listing });
+})
+
+app.use((err, req, res, next) => {
+    let { status = 400, message = "Something is going on wrong" } = err;
+    res.status(status).send(message);
 })
 
 app.listen(port, () => {

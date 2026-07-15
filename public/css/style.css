@@ -63,6 +63,7 @@ i {
 }
 
 .card{
+    
     margin: 20px 0px 0px 0px;
     border: none !important;
 }
@@ -71,10 +72,11 @@ i {
 }
 
 .homeContainer{
-    display: flex;
+     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 20px 0px;
+    justify-content: space-between; 
+     margin: 20px 0px; 
+    /* margin-top: 40px; */
 }
 
 .formContainer, .editContainer{
@@ -83,6 +85,8 @@ i {
 
 .listing-link{
     text-decoration: none;
+     /* display: inline-block;
+   margin: 10px 16px; */
 }
 
 .card-img-overlay{
@@ -92,4 +96,14 @@ i {
 .card-img-overlay:hover{
     opacity: 0.3;
     background-color: white;
+}
+
+.show-img{
+    height: 400px;
+}
+.showContainer{
+    height: 100vh;
+}
+.show-form{
+    display: flex;
 }

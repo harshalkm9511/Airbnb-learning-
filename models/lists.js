@@ -4,11 +4,9 @@ const { type } = require("node:os");
 const listSchema = mongoose.Schema({
     title: {
         type: String,
-        required: true
     },
     description: {
         type: String,
-        required: true
     },
     image: {
         type: String,
@@ -19,15 +17,16 @@ const listSchema = mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true
+        default: 0,
+        set: (n) => {
+            return n == null ? 0 : n;
+        }
     },
     location: {
         type: String,
-        required: true
     },
     country: {
         type: String,
-        required: true
     }
 })
 
