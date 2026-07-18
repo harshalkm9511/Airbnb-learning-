@@ -6,6 +6,7 @@ const ejsMate = require("ejs-mate");
 const Listing = require("./models/lists");
 const ExpressError = require("./utils/ExpressError");
 const wrapAsync = require("./utils/wrapAsync");
+const listingSchema = require("./schema");
 
 const app = express();
 const port = 8080;
@@ -19,12 +20,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
 
+const validateListing = (req, res, next) => {
+    let { error } = listingSchema.validate(req.body);
+    if (error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(403, errMsg);
+    }
+    next();
+};
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
-
 async function main() {
     await mongoose.connect(MONGO_URL)
-
 }
 
 main()
@@ -47,12 +54,9 @@ app.get("/listing/new", (req, res) => {
     res.render("./layouts/listings/form.ejs");
 });
 
-app.post("/listing", wrapAsync(async (req, res, next) => {
-    let listing = req.body.listing;
-    if (!listing) {
-        next(new ExpressError(400, "Listing cannot be added!"));
-    }
-    const newListing = new Listing(listing);
+app.post("/listing", validateListing, wrapAsync(async (req, res, next) => {
+
+    const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/");
 }));
@@ -66,9 +70,9 @@ app.get("/listing/edit/:id", wrapAsync(async (req, res) => {
     res.render("./layouts/listings/update.ejs", { listing });
 }));
 
-app.patch("/:id", wrapAsync(async (req, res) => {
+app.patch("/:id", validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
-    let listing = req.body.listing;
+    let listing = req.body.listing; 
     if (!listing) {
         throw new ExpressError(403, "Listing not found!");
     }
@@ -98,7 +102,7 @@ app.all("/{*splat}", (req, res, next) => {
 app.use((err, req, res, next) => {
     let { status = 400, message = "Something is going on wrong" } = err;
     // res.status(status).send(message);
-    res.status(status).render("error.ejs",{err});
+    res.status(status).render("error.ejs", { err });
 });
 
 app.listen(port, () => {
