@@ -6,8 +6,7 @@ const ejsMate = require("ejs-mate");
 const Listing = require("./models/lists");
 const ExpressError = require("./utils/ExpressError");
 const wrapAsync = require("./utils/wrapAsync");
-const listingSchema = require("./schema");
-
+const validateListing = require("./utils/validateListing");
 const app = express();
 const port = 8080;
 
@@ -20,14 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
 
-const validateListing = (req, res, next) => {
-    let { error } = listingSchema.validate(req.body);
-    if (error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(403, errMsg);
-    }
-    next();
-};
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 async function main() {
