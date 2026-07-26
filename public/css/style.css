@@ -53,7 +53,7 @@ a {
     align-content: center;
     background-color: rgb(14, 14, 14);
     color: white;
-    margin-bottom: 0px;
+    /* margin-bottom: 0px; */
     height: 300px;
 }
 
@@ -101,11 +101,33 @@ i {
 .show-img{
     height: 400px;
 }
-.showContainer{
-    height: 100vh;
-}
-.show-form{
+
+.btn-review-form-container{
     display: flex;
+    justify-content: space-between;
+}
+
+.btn-review{
+    width: 400px;
+}
+.show-btn{
+    display: flex;
+    margin-bottom: 20px;
+}
+.show-review{
+    background-color:rgb(240, 240, 240);
+    /* border: 1px solid black; */
+    border-radius: 10px;
+    height: 100px;
+}
+.reviewForm{
+    width: 400px;
+    height: 250px;
+}
+.createReview{
+    height: 40px;
+    align-self: center;
+    margin: 0px 0px -10px 10px;
 }
 
 .errorContainer{
@@ -117,3 +139,5 @@ i {
 /* .alert{
     height: 200px;
 } */
+
+

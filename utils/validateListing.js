@@ -1,4 +1,4 @@
-const listingSchema = require("../schema");
+const listingSchema = require("../validators/schema");
 const ExpressError = require("./ExpressError");
 
 const validateListing = (req, res, next)=>{

@@ -3,10 +3,13 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+
 const Listing = require("./models/lists");
 const ExpressError = require("./utils/ExpressError");
 const wrapAsync = require("./utils/wrapAsync");
 const validateListing = require("./utils/validateListing");
+const Reviews = require("./models/reviews");
+
 const app = express();
 const port = 8080;
 
@@ -63,7 +66,7 @@ app.get("/listing/edit/:id", wrapAsync(async (req, res) => {
 
 app.patch("/:id", validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
-    let listing = req.body.listing; 
+    let listing = req.body.listing;
     if (!listing) {
         throw new ExpressError(403, "Listing not found!");
     }
@@ -77,9 +80,22 @@ app.delete("/:id", wrapAsync(async (req, res) => {
     res.redirect("/");
 }));
 
-app.get("/listing/:id", wrapAsync(async (req, res) => {
+app.post("/listing/:id/review", wrapAsync(async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
+    if (!listing) {
+        throw new ExpressErrror(500, "Listing Dose not exists");
+    }
+    let review = new Reviews(req.body.reviews);
+    listing.reviews.push(review);
+    await review.save();
+    await listing.save();
+    res.render("./layouts/listings/show.ejs", { listing });
+}))
+
+app.get("/listing/:id", wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    let listing = await Listing.findById(id).populate("reviews");
     if (!listing) {
         throw new ExpressError(403, "Listing not found!");
     }
@@ -92,7 +108,6 @@ app.all("/{*splat}", (req, res, next) => {
 
 app.use((err, req, res, next) => {
     let { status = 400, message = "Something is going on wrong" } = err;
-    // res.status(status).send(message);
     res.status(status).render("error.ejs", { err });
 });
 

@@ -3,33 +3,86 @@
     <body>
         <div class="showContainer">
             <div class="card col-8 offset-2">
+                <h4 class="card-title">
+                    <%= listing.title %>
+                </h4>
+                <br>
                 <img src="<%= listing.image %>" class="card-img-top show-img" alt="listing-image">
                 <div class="card-body">
-                    <h5 class="card-title">
-                        <%= listing.title %>
-                    </h5>
                     <p class="card-text">
                         <%= listing.description %> <br>
                             &#8377;<%= listing.price.toLocaleString("en-IN") %> <br>
                                 <%= listing.location %> ,
                                     <%= listing.country %>
                     </p>
+                    <br>
+                    <div class="btn-review-form-container">
+                        <div class="btn-review">
+                            <div class="show-btn ">
+                                <div class=" btn">
+                                    <a href="/listing/edit/<%= listing._id %>" class="btn btn-outline-secondary">Edit</a>
 
-
-                    <div class="show-form">
-                        <div class=" col-1">
-                            <a href="/listing/edit/<%= listing._id %>" class="btn btn-dark">Edit</a>
-
+                                </div>
+                                <div class="btn">
+                                    <form method="post" action="/<%= listing._id %>?_method=DELETE">
+                                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div>
+                                <% for(let rev of listing.reviews ){%>
+                                    <p class="show-review " style="padding: 10px">
+                                        <i class="fa-solid fa-circle-user"></i>@username
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        Date: <%= rev.date.toLocaleString().split(" ")[0].substring(0, 9) %> <br>
+                                        Comment: <%= rev.comment %> <br>
+                                            Rating: <%= rev.rating %> <br>
+                                             
+                                    </p>
+                                    <% }%>
+                            </div>
                         </div>
-                        <div class="col-1">
-                            <form method="post" action="/<%= listing._id %>?_method=DELETE">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+
+                        <div class=" reviewForm ">
+                            <form method=" post" action="/listing/<%= listing.id %>/review" class="needs-validation"
+                                            novalidate>
+                                            <div class="row">
+                                                <div class="">
+
+                                                    <div class="mb-3 ">
+                                                        <label for="review" class="form-label">Review </label>
+                                                        <textarea name="reviews[comment]" id="description"
+                                                            style="height: 100px" class="form-control"
+                                                            required></textarea>
+                                                        <div class="invalid-feedback">Write review</div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="mb-3 col-4">
+                                                            <label for="rating" class="form-label">Rating</label>
+                                                            <input type="number" name="reviews[rating]"
+                                                                class="form-control" required>
+                                                            <div class="invalid-feedback">Enter rating </div>
+                                                        </div>
+                                                        <button type="submit"
+                                                            class="btn btn-outline-secondary col-3  createReview">Post</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            </form>
+                            </div>
                         </div>
+
                     </div>
 
                 </div>
+
+
             </div>
+
         </div>
-        </div>
+
+
+
     </body>
