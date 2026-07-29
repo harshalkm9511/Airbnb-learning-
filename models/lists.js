@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { type } = require("node:os");
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 const Reviews = require("./reviews");
 
 const listSchema = mongoose.Schema({
@@ -30,12 +30,17 @@ const listSchema = mongoose.Schema({
     country: {
         type: String,
     },
-    reviews:[{
-        type:Schema.Types.ObjectId,
-        ref:"Reviews"
+    reviews: [{
+        type: Schema.Types.ObjectId,
+        ref: "Reviews"
     }]
 })
 
+listSchema.post("findOneAndDelete", async (listing) => {
+    if (listing) {
+        await Reviews.deleteMany({ _id: { $in: listing.reviews } });
+    }
+})
 let Listing = mongoose.model("Listing", listSchema);
 
 module.exports = Listing;

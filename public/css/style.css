@@ -106,23 +106,36 @@ i {
     display: flex;
     justify-content: space-between;
 }
+hr{
+     margin: 40px 0px !important;
+}
 
 .btn-review{
     width: 400px;
 }
-.show-btn{
-    display: flex;
-    margin-bottom: 20px;
+
+.edit-btn, .delete-btn, .post-btn, .review-delete{
+border-radius: 15px !important;
+}
+.reviewTextarea, .reviewInput{
+    border-radius: 15px !important;
 }
 .show-review{
-    background-color:rgb(240, 240, 240);
-    /* border: 1px solid black; */
+    background-color:rgb(245, 245, 245);
     border-radius: 10px;
-    height: 100px;
+    margin-top: 20px;
+    padding: 20px;
+}
+.reviewDelete{
+    display: inline !important;
+}
+#reviewUsername{
+    display: inline-block;
 }
 .reviewForm{
     width: 400px;
     height: 250px;
+    margin-top: 10px;
 }
 .createReview{
     height: 40px;
