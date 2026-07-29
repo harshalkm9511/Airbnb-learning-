@@ -40,12 +40,12 @@ main()
 
 app.get("/", wrapAsync(async (req, res) => {
     let lists = await Listing.find();
-    res.render("./layouts/listings/home.ejs", { lists });
+    res.render("./listings/home.ejs", { lists });
 }));
 
 //create Listing
 app.get("/listing/new", (req, res) => {
-    res.render("./layouts/listings/form.ejs");
+    res.render("./listings/form.ejs");
 });
 app.post("/listing/new", validateListing, wrapAsync(async (req, res) => {
     const newListing = new Listing(req.body.listing);
@@ -62,7 +62,7 @@ app.get("/listing/:id/edit", wrapAsync(async (req, res) => {
         throw new ExpressError(404, "Listing not found!");
     }
 
-    res.render("./layouts/listings/update.ejs", { listing });
+    res.render("./listings/update.ejs", { listing });
 }));
 app.patch("/listing/:id", validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
@@ -132,7 +132,7 @@ app.get("/listing/:id", wrapAsync(async (req, res) => {
         throw new ExpressError(404, "Listing not found!");
     }
 
-    res.render("./layouts/listings/show.ejs", { listing });
+    res.render("./listings/show.ejs", { listing });
 }));
 
 app.all("/{*splat}", (req, res, next) => {
