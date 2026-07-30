@@ -4,15 +4,9 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 
-const Listing = require("./models/lists");
-const Reviews = require("./models/reviews");
 const ExpressError = require("./utils/ExpressError");
-const wrapAsync = require("./utils/wrapAsync");
-const validateListing = require("./utils/validateListing");
-const validateReview = require("./utils/validateReview");
-
 const listingRouter = require("./router/listing.js");
-
+const reviewRouter = require("./router/reviews.js");
 
 const app = express();
 const port = 8080;
@@ -28,23 +22,25 @@ app.use(methodOverride("_method"));
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
-async function main() {
-    await mongoose.connect(MONGO_URL)
-}
-main()
-    .then((res) => {
-        console.log("Database is connected");
-    })
-    .catch((err) => {
-        console.log("Database connection failed.", err);
-        process.exit(1);
-    });
 
-app.get("/", (req, res)=>{
+async function main() {
+    try {
+        await mongoose.connect(MONGO_URL);
+        console.log("Database is connected successfully.");
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+main();
+
+
+app.get("/", (req, res) => {
     res.redirect("/listing");
 })
 
 app.use("/listing", listingRouter);
+app.use("/listing/:id/reviews", reviewRouter);
 
 app.all("/{*splat}", (req, res, next) => {
     next(new ExpressError(404, "Page not found!"));
