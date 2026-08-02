@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const flash = require("connect-flash");
 
 const Listing = require("../models/lists");
 const ExpressError = require("../utils/ExpressError");
@@ -20,6 +21,7 @@ router.get("/new", (req, res) => {
 router.post("/", validateListing, wrapAsync(async (req, res) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
+    req.flash("success", "New Listing Added");
     res.redirect("/");
 }));
 

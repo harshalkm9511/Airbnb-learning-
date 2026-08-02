@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 const ExpressError = require("./utils/ExpressError");
 const listingRouter = require("./router/listing.js");
@@ -21,6 +23,7 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 
 
+
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 
 async function main() {
@@ -35,8 +38,25 @@ async function main() {
 main();
 
 
-app.get("/", (req, res) => {
-    res.redirect("/listing");
+// app.get("/", (req, res) => {
+//     res.redirect("/listing");
+// })
+
+const sessionOptions = {
+    secret: "mySecretKey",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true
+    }
+};
+app.use(session(sessionOptions));
+app.use(flash());
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    next();
 })
 
 app.use("/listing", listingRouter);
