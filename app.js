@@ -38,9 +38,9 @@ async function main() {
 main();
 
 
-// app.get("/", (req, res) => {
-//     res.redirect("/listing");
-// })
+app.get("/", (req, res) => {
+    res.redirect("/listing");
+})
 
 const sessionOptions = {
     secret: "mySecretKey",
@@ -56,6 +56,7 @@ app.use(session(sessionOptions));
 app.use(flash());
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
     next();
 })
 

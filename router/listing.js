@@ -31,10 +31,12 @@ router.get("/:id/edit", wrapAsync(async (req, res) => {
     let listing = await Listing.findById(id);
 
     if (!listing) {
-        throw new ExpressError(404, "Listing not found!");
+        // throw new ExpressError(404, "Listing not found!");
+        req.flash("error", "Listing dose not exist");
+        res.redirect("/");
+    } else {
+        res.render("./listings/update.ejs", { listing });
     }
-
-    res.render("./listings/update.ejs", { listing });
 }));
 router.patch("/:id", validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
@@ -45,10 +47,14 @@ router.patch("/:id", validateListing, wrapAsync(async (req, res) => {
     }
     let updateListing = await Listing.findByIdAndUpdate(id, listing);
     if (!updateListing) {
-        throw new ExpressError(404, "Listing not found!");
+        // throw new ExpressError(404, "Listing not found!");
+        req.flash("error", "Listing dose not exist");
+        res.redirect("/");
+    } else {
+        req.flash("success", "Listing is updated");
+        res.redirect(`/listing/${id}`);
     }
 
-    res.redirect(`/listing/${id}`);
 }));
 
 
@@ -58,10 +64,14 @@ router.delete("/:id", wrapAsync(async (req, res) => {
     const deleted = await Listing.findByIdAndDelete(id);
 
     if (!deleted) {
-        throw new ExpressError(404, "Listing not found!");
+        // throw new ExpressError(404, "Listing not found!");
+        req.flash("error", "Listing dose not exist");
+        res.redirect("/");
     }
-
-    res.redirect("/");
+    else {
+        req.flash("success", "Listing is deleted");
+        res.redirect("/");
+    }
 }));
 
 // Show Listing
@@ -70,10 +80,12 @@ router.get("/:id", wrapAsync(async (req, res) => {
     let listing = await Listing.findById(id).populate("reviews");
 
     if (!listing) {
-        throw new ExpressError(404, "Listing not found!");
+        // throw new ExpressError(404, "Listing not found!");
+        req.flash("error", "Listing dose not exist");
+        res.redirect("/");
+    } else {
+        res.render("./listings/show.ejs", { listing });
     }
-
-    res.render("./listings/show.ejs", { listing });
 }));
 
 module.exports = router;
