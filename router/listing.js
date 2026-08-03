@@ -31,7 +31,6 @@ router.get("/:id/edit", wrapAsync(async (req, res) => {
     let listing = await Listing.findById(id);
 
     if (!listing) {
-        // throw new ExpressError(404, "Listing not found!");
         req.flash("error", "Listing dose not exist");
         res.redirect("/");
     } else {
@@ -47,8 +46,7 @@ router.patch("/:id", validateListing, wrapAsync(async (req, res) => {
     }
     let updateListing = await Listing.findByIdAndUpdate(id, listing);
     if (!updateListing) {
-        // throw new ExpressError(404, "Listing not found!");
-        req.flash("error", "Listing dose not exist");
+        req.flash("error", "Listing dose not updated");
         res.redirect("/");
     } else {
         req.flash("success", "Listing is updated");
@@ -64,8 +62,7 @@ router.delete("/:id", wrapAsync(async (req, res) => {
     const deleted = await Listing.findByIdAndDelete(id);
 
     if (!deleted) {
-        // throw new ExpressError(404, "Listing not found!");
-        req.flash("error", "Listing dose not exist");
+        req.flash("error", "Listing dose not deleted");
         res.redirect("/");
     }
     else {
@@ -80,7 +77,6 @@ router.get("/:id", wrapAsync(async (req, res) => {
     let listing = await Listing.findById(id).populate("reviews");
 
     if (!listing) {
-        // throw new ExpressError(404, "Listing not found!");
         req.flash("error", "Listing dose not exist");
         res.redirect("/");
     } else {
