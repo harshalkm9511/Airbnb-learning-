@@ -1,21 +1,23 @@
 <% layout("/layouts/boilarplate") %>
-    <body>
-        <div class="homeContainer">
-            <% for(let list of lists){%>
-                <a href="/listing/<%= list._id %>" class="listing-link">
-                    <div class="card" style="width: 18rem;">
-                        <img src="<%=list.image%>" class="card-img-top" alt="Listing_image">
-                        <div class="card-img-overlay">harshal</div>
-                        <div class="card-body">
+    
 
-                            <p class="card-title">
-                                <%= list.title %>
-                            </p>
-                            <p class="card-prise">&#8377;<%= list.price.toLocaleString() %>
-                            </p>
-                        </div>
-                    </div>
-                </a>
-                <%}%>
-        </div>
-    </body>
+            <body>
+                <div class="homeContainer">
+                    <% for(let list of lists){%>
+                        <a href="/listing/<%= list._id %>" class="listing-link">
+                            <div class="card" style="width: 18rem;">
+                                <img src="<%=list.image%>" class="card-img-top" alt="Listing_image">
+                                <div class="card-img-overlay">harshal</div>
+                                <div class="card-body">
+
+                                    <p class="card-title">
+                                        <%= list.title %>
+                                    </p>
+                                    <p class="card-prise">&#8377;<%= list.price.toLocaleString() %>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <%}%>
+                </div>
+            </body>

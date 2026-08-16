@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const router = express.Router({mergeParams:true});
 const flash = require("connect-flash");
 
 const Listing = require("../models/lists");
@@ -8,10 +8,12 @@ const wrapAsync = require("../utils/wrapAsync");
 const validateListing = require("../utils/validateListing");
 
 
+
+
 // show listings
 router.get("/", wrapAsync(async (req, res) => {
     let lists = await Listing.find();
-    res.render("./listings/home.ejs", { lists });
+    res.render("./listings/home.ejs", { lists , success:req.flash("success")});
 }));
 
 //create Listing
