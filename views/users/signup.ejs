@@ -1,0 +1,22 @@
+<% layout("layouts/boilarplate") %>
+    <div class="sighUp_Page mb-5">
+        <form method="POST" action="/user/signup" class="mb-3 col-4 offset-4">
+            <h1 class="mb-4  offset-2">Create Account</h1>
+            <div class="mb-3">
+                <label for="email" class="form-label">email: </label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username: </label>
+                <input type="text" class="form-control" id="username" name="username">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password: </label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+
+            <button type="submit" class="btn btn-dark">SignUp</button>
+            <a href="/user/signin" class="btn btn-dark ">Login</a>
+        </form>
+
+    </div>

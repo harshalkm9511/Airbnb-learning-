@@ -154,3 +154,12 @@ border-radius: 15px !important;
 } */
 
 
+/* Authentication and Authorization styling */
+
+.login_Page, .sighUp_Page{
+    height: 500px;
+}
+.login_Page, .sighUp_Page form{
+    margin: 100px auto;
+}
+
