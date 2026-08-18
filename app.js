@@ -29,7 +29,7 @@ let sessionOptions = {
     secret: "MySecretKey",
     resave: false,
     saveUninitialized: true,
-    cookie: {
+    cookie:{
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true
@@ -46,8 +46,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
+const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 async function main() {
     try {
         await mongoose.connect(MONGO_URL);
@@ -56,15 +58,10 @@ async function main() {
         console.log(err);
     }
 }
-
 main();
 
 
-app.get("/", (req, res) => {
-    res.redirect("/listing");
-});
-
-app.use("/user",userRouter);
+app.use("/",userRouter);
 
 app.use("/listing", listingRouter);
 app.use("/listing/:id/reviews", reviewRouter);

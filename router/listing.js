@@ -13,7 +13,7 @@ const validateListing = require("../utils/validateListing");
 // show listings
 router.get("/", wrapAsync(async (req, res) => {
     let lists = await Listing.find();
-    res.render("./listings/home.ejs", { lists , success:req.flash("success")});
+    res.render("./listings/home.ejs", { lists});
 }));
 
 //create Listing
@@ -65,11 +65,11 @@ router.delete("/:id", wrapAsync(async (req, res) => {
 
     if (!deleted) {
         req.flash("error", "Listing dose not deleted");
-        res.redirect("/");
+        res.redirect(`/listing/${id}`);
     }
     else {
         req.flash("success", "Listing is deleted");
-        res.redirect("/");
+        res.redirect("/listing");
     }
 }));
 

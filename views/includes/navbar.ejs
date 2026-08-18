@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md bg-body-white sticky-top">
     <div class="container-fluid">
-        <i class="fa-brands fa-airbnb airbnbIcon"></i>  
+        <i class="fa-brands fa-airbnb airbnbIcon"></i>
         <a class="navbar-brand" href="/">Wonderlust</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
@@ -8,10 +8,26 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-                <a class="nav-link" href="#">All Listings</a>
-                <a class="nav-link" href="/listing/new">Add New Listings</a>
+            <div class="navContainer">
+                <div class="nav-1 navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link" href="/listing/new">Add New Listings</a>
+                </div>
+                <div class="dropdown nav-2 navbar-nav">
+                    <button class="btn  dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="fa-regular fa-circle-user profile"></i> 
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item active" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Separated link</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
