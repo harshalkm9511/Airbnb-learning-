@@ -6,6 +6,7 @@ const User = require("../models/user");
 const ExpressError = require("../utils/ExpressError");
 const wrapAsync = require("../utils/wrapAsync");
 
+
 router.get("/", (req, res) => {
     res.redirect("/signin");
 });

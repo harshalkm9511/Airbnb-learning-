@@ -6,6 +6,7 @@ const Listing = require("../models/lists");
 const ExpressError = require("../utils/ExpressError");
 const wrapAsync = require("../utils/wrapAsync");
 const validateListing = require("../utils/validateListing");
+const { isLoggedIn } = require("../middleware");
 
 // show listings
 router.get("/", wrapAsync(async (req, res) => {
@@ -14,15 +15,10 @@ router.get("/", wrapAsync(async (req, res) => {
 }));
 
 //create Listing
-router.get("/new", (req, res) => {
-    if (!req.isAuthenticated()) {
-        req.flash("error", "Login first to create listing");
-        res.redirect("/signin");
-    } else {
-        res.render("./listings/form.ejs");
-    }
+router.get("/new", isLoggedIn, (req, res) => {
+    res.render("./listings/form.ejs");
 });
-router.post("/", validateListing, wrapAsync(async (req, res) => {
+router.post("/", isLoggedIn, validateListing, wrapAsync(async (req, res) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     req.flash("success", "New Listing Added");
@@ -30,23 +26,18 @@ router.post("/", validateListing, wrapAsync(async (req, res) => {
 }));
 
 //edit Listing
-router.get("/:id/edit", wrapAsync(async (req, res) => {
-    if (!req.isAuthenticated()) {
-        req.flash("error", "Login first to edit listing");
-        res.redirect("/signin");
-    } else {
-        let { id } = req.params;
-        let listing = await Listing.findById(id);
+router.get("/:id/edit", isLoggedIn, wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    let listing = await Listing.findById(id);
 
-        if (!listing) {
-            req.flash("error", "Listing dose not exist");
-            res.redirect("/");
-        } else {
-            res.render("./listings/update.ejs", { listing });
-        }
+    if (!listing) {
+        req.flash("error", "Listing dose not exist");
+        res.redirect("/");
+    } else {
+        res.render("./listings/update.ejs", { listing });
     }
 }));
-router.patch("/:id", validateListing, wrapAsync(async (req, res) => {
+router.patch("/:id", isLoggedIn, validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
     let listing = req.body.listing;
 
@@ -65,21 +56,16 @@ router.patch("/:id", validateListing, wrapAsync(async (req, res) => {
 }));
 
 // delete Listing
-router.delete("/:id", wrapAsync(async (req, res) => {
-    if (!req.isAuthenticated()) {
-        req.flash("error", "Login first to delete Listing");
-        res.redirect("/signin");
-    } else {
-        let { id } = req.params;
-        const deleted = await Listing.findByIdAndDelete(id);
+router.delete("/:id", isLoggedIn, wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    const deleted = await Listing.findByIdAndDelete(id);
 
-        if (!deleted) {
-            req.flash("error", "Listing dose not deleted");
-            res.redirect(`/listing/${id}`);
-        } else {
-            req.flash("success", "Listing is deleted");
-            res.redirect("/listing");
-        }
+    if (!deleted) {
+        req.flash("error", "Listing dose not deleted");
+        res.redirect(`/listing/${id}`);
+    } else {
+        req.flash("success", "Listing is deleted");
+        res.redirect("/listing");
     }
 }));
 
