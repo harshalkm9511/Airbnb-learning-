@@ -37,14 +37,16 @@ let sessionOptions = {
 };
 app.use(session(sessionOptions));
 app.use(flash());
-app.use((req, res, next) => {
-    res.locals.success = req.flash("success");
-    res.locals.error = req.flash("error");
-    next();
-});
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    res.locals.currUser = req.user;
+    next();
+});
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -61,8 +63,8 @@ async function main() {
 main();
 
 app.get("/test", (req, res) => {
-    console.log("sessionId:" + req.sessionID);
-    console.log(req.session);
+    // console.log("sessionId:" + req.sessionID);
+    // console.log(req.session);
     console.log(req.user);
     res.send("checking the terminal");
 })

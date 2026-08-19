@@ -5,6 +5,7 @@ const passport = require("passport");
 const User = require("../models/user");
 const ExpressError = require("../utils/ExpressError");
 const wrapAsync = require("../utils/wrapAsync");
+const {isLoggedIn} = require("../middleware");
 
 
 router.get("/", (req, res) => {
@@ -39,5 +40,15 @@ router.post("/signup", wrapAsync(async (req, res) => {
         res.redirect("/user/signup");
     }
 }));
+
+router.get("/logout", isLoggedIn, (req, res) => {
+    req.logout((err) => {
+        if (err) {
+            next(err);
+        }
+        req.flash("success", "You are logout");
+        res.redirect("/listing");
+    })
+})
 
 module.exports = router;
