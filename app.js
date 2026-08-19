@@ -29,7 +29,7 @@ let sessionOptions = {
     secret: "MySecretKey",
     resave: false,
     saveUninitialized: true,
-    cookie:{
+    cookie: {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true
@@ -60,8 +60,15 @@ async function main() {
 }
 main();
 
+app.get("/test", (req, res) => {
+    console.log("sessionId:" + req.sessionID);
+    console.log(req.session);
+    console.log(req.user);
+    res.send("checking the terminal");
+})
 
-app.use("/",userRouter);
+
+app.use("/", userRouter);
 
 app.use("/listing", listingRouter);
 app.use("/listing/:id/reviews", reviewRouter);
@@ -70,7 +77,7 @@ app.all("/{*splat}", (req, res, next) => {
     next(new ExpressError(404, "Page not found!"));
 });
 
-app.use((err, req, res, next) => {
+    app.use((err, req, res, next) => {
     let { status = 400, message = "Something is going on wrong" } = err;
     res.status(status).render("error.ejs", { err });
 });
