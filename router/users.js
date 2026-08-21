@@ -9,7 +9,7 @@ const {isLoggedIn} = require("../middleware");
 
 
 router.get("/", (req, res) => {
-    res.redirect("/signin");
+    res.redirect("/listing");
 });
 router.get("/signin", (req, res) => {
     res.render("./users/login.ejs");
