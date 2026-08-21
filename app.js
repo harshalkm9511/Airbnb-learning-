@@ -67,16 +67,6 @@ app.use((req, res, next) => {
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
-
-app.get("/test", (req, res) => {
-    // console.log("sessionId:" + req.sessionID);
-    // console.log(req.session);
-    console.log(req.user);
-    res.send("checking the terminal");
-})
-
-
 app.use("/", userRouter);
 
 app.use("/listing", listingRouter);
