@@ -5,7 +5,7 @@ const passport = require("passport");
 const User = require("../models/user");
 const ExpressError = require("../utils/ExpressError");
 const wrapAsync = require("../utils/wrapAsync");
-const {isLoggedIn} = require("../middleware");
+const { isLoggedIn } = require("../middleware");
 
 
 router.get("/", (req, res) => {
@@ -17,8 +17,14 @@ router.get("/signin", (req, res) => {
 router.post("/signin",
     passport.authenticate("local", { failureRedirect: "/signin", failureFlash: true }),
     wrapAsync(async (req, res) => {
-        req.flash("success", "Welcome to wonderlust! You successfully logedin");
-        res.redirect("/listing");
+        console.log(req.session.redirectUrl);
+        if (req.session.redirectUrl) {
+            console.log(req.session.redirectUrl);
+            res.redirect(req.session.redirectUrl);
+        } else {
+            req.flash("success", "Welcome to wonderlust! You successfully logedin");
+            res.redirect("/listing");
+        }
     }));
 
 router.get("/signup", (req, res) => {
@@ -30,12 +36,22 @@ router.post("/signup", wrapAsync(async (req, res) => {
             email: req.body.email,
             username: req.body.username
         });
-        let result = await User.register(user1, req.body.password);
+        let registerUser = await User.register(user1, req.body.password);
+        req.login(registerUser, (err) => {
+            if (err) {
+                req.flash("error", "User cannot login");
+                res.redirect("/signin");
+            }
+            if (req.session.redirectUrl) {
+                res.redirect(req.session.redirectUrl);
+            }
+            else {
+                req.flash("success", "Welcome to wonderlust");
+                res.redirect("/listing");
+            }
+        })
 
-        req.flash("success", "Welcome to wonderlust");
-        res.redirect("/listing");
     } catch (err) {
-        console.log(err);
         req.flash("error", "User is already exists");
         res.redirect("/user/signup");
     }
